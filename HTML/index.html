@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Sukriti Kumari | Web Development Task</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#6a11cb,#2575fc);
+color:#333;
+scroll-behavior:smooth;
+}
+
+/* Sections */
+
+.section{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* Card */
+
+.container{
+background:white;
+padding:40px;
+border-radius:20px;
+width:450px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+animation:fadeIn 1s ease;
+}
+
+h1{
+margin-bottom:15px;
+}
+
+p{
+font-size:16px;
+line-height:1.6;
+}
+
+/* Buttons */
+
+.link-btn{
+display:inline-block;
+margin:10px;
+padding:12px 25px;
+background:#2575fc;
+color:white;
+text-decoration:none;
+border-radius:25px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.link-btn:hover{
+background:#1a5cd8;
+transform:scale(1.08);
+}
+
+/* Mahadev Section */
+
+.welcome-section{
+background:black;
+color:white;
+flex-direction:column;
+}
+
+.welcome-section h1{
+font-size:40px;
+color:#ffcc00;
+}
+
+.welcome-section img{
+width:320px;
+border-radius:12px;
+margin-top:20px;
+transition:0.5s;
+}
+
+.welcome-section img:hover{
+transform:scale(1.08);
+}
+
+/* Clock */
+
+.clock{
+margin-top:15px;
+font-weight:bold;
+color:#444;
+}
+
+/* Animation */
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- First Section -->
+
+<div class="section">
+
+<div class="container">
+
+<h1>Welcome to My Webpage</h1>
+
+<p>
+Hello, I am <b>Sukriti Kumari</b>.  
+I developed this webpage using <b>HTML, CSS, and JavaScript</b> as part of my first task assigned by Apex Planet to demonstrate the basics of web development.
+</p>
+
+<!-- Link to Mahadev Section -->
+
+<a href="#mahadev" class="link-btn">
+See Welcome Image
+</a>
+
+<!-- Link to Visit Website -->
+
+<a href="https://www.wikipedia.org" target="_blank" class="link-btn">
+Visit a Website
+</a>
+
+<div class="clock" id="clock"></div>
+
+</div>
+
+</div>
+
+
+<!-- Mahadev Section -->
+
+<div class="section welcome-section" id="mahadev">
+
+<h1>🙏 Welcome 🙏</h1>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Shiva_statue.jpg">
+
+<h2>Har Har Mahadev</h2>
+
+</div>
+
+
+<script>
+
+/* Live Clock */
+
+function updateClock(){
+let now=new Date();
+document.getElementById("clock").innerHTML=
+"Current Time: "+now.toLocaleTimeString();
+}
+
+setInterval(updateClock,1000);
+
+</script>
+
+</body>
+
+</html>
