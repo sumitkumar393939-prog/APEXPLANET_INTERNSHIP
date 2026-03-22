@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Styling & JavaScript</title><style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    text-align: center;
+}
+
+header {
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.container {
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+button {
+    padding: 10px 15px;
+    margin: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #00c9a7;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00a389;
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+}
+
+a {
+    color: #00ffd5;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 { font-size: 22px; }
+}
+</style></head><body><header>
+    <h1>🚀 Advanced Styling & JavaScript Project</h1>
+    <p>✨ ApexPlanet Internship Task 3</p>
+</header><div class="container"><!-- QUIZ -->
+<div class="card">
+    <h2>🧠 Quiz Challenge</h2>
+    <p id="question"></p>
+    <div id="options"></div>
+    <p id="score"></p>
+</div>
+
+<!-- JOKE API -->
+<div class="card">
+    <h2>😂 Random Joke Generator</h2>
+    <p id="joke">Click below 👇</p>
+    <button onclick="getJoke()">Get Joke</button>
+</div>
+
+<!-- EXTRA FUN -->
+<div class="card">
+    <h2>🎨 Fun Color Changer</h2>
+    <button onclick="changeColor()">Change Background</button>
+</div>
+
+</div><footer>
+    🌐 Visit: <a href="https://apexplanet.in" target="_blank">ApexPlanet</a>
+</footer><script>
+
+// QUIZ DATA
+const quiz = [
+    { q: "HTML stands for?", o: ["Hyper Text Markup Language","High Text Machine","Hyper Tool"], a: "Hyper Text Markup Language" },
+    { q: "CSS is used for?", o: ["Structure","Styling","Logic"], a: "Styling" },
+    { q: "JavaScript is used for?", o: ["Design","Database","Interactivity"], a: "Interactivity" },
+    { q: "Which is frontend?", o: ["Node.js","React","MongoDB"], a: "React" }
+];
+
+let i = 0;
+let score = 0;
+
+function loadQ() {
+    if (i >= quiz.length) {
+        document.getElementById("question").innerText = "🎉 Quiz Finished!";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("score").innerText = "Score: " + score + "/" + quiz.length;
+        return;
+    }
+
+    document.getElementById("question").innerText = quiz[i].q;
+    let optHTML = "";
+
+    quiz[i].o.forEach(opt => {
+        optHTML += `<button onclick="check('${opt}')">${opt}</button><br>`;
+    });
+
+    document.getElementById("options").innerHTML = optHTML;
+}
+
+function check(ans) {
+    if (ans === quiz[i].a) {
+        score++;
+    }
+    i++;
+    loadQ();
+}
+
+loadQ();
+
+// JOKE API
+function getJoke() {
+    fetch("https://official-joke-api.appspot.com/random_joke")
+    .then(r => r.json())
+    .then(d => {
+        document.getElementById("joke").innerText = d.setup + " 😂 " + d.punchline;
+    })
+    .catch(() => {
+        document.getElementById("joke").innerText = "Error loading joke 😢";
+    });
+}
+
+// COLOR CHANGER
+function changeColor() {
+    const colors = ["#1e3c72", "#ff6f61", "#6a11cb", "#11998e"];
+    document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
+}
+
+</script></body>
+</html>
