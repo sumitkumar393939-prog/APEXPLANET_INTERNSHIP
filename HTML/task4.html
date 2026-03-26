@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sukriti Project</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* NAVBAR */
+nav {
+    background: #0f766e;
+    padding: 15px;
+    text-align: center;
+}
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* PAGE SECTIONS */
+.page {
+    display: none;
+    padding: 40px;
+    text-align: center;
+}
+.active {
+    display: block;
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(to right, #0f766e, #14b8a6);
+    color: white;
+    padding: 60px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 20px;
+    margin: 15px;
+    display: inline-block;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px gray;
+}
+
+/* BUTTON */
+button {
+    padding: 10px;
+    background: teal;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* PRODUCTS */
+#productsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.product {
+    background: white;
+    margin: 10px;
+    padding: 15px;
+    width: 220px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px gray;
+}
+.product img {
+    width: 100px;
+    height: 100px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('todo')">To-Do</a>
+<a onclick="showPage('products')">Products</a>
+
+<!-- PORTFOLIO LINK -->
+<a href="https://sites.google.com/view/sukritikumari/home" target="_blank">
+Portfolio
+</a>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+<div class="hero">
+<h1>👩‍💻 Sukriti Kumari</h1>
+<p>Apex Planet Internship Project 🚀</p>
+</div>
+
+<h2>My Work</h2>
+
+<div class="card">
+<h3>Portfolio</h3>
+<a href="https://sites.google.com/view/sukritikumari/home" target="_blank">
+<button>Open Portfolio</button>
+</a>
+</div>
+
+<div class="card">
+<h3>To-Do App</h3>
+<button onclick="showPage('todo')">Open</button>
+</div>
+
+<div class="card">
+<h3>Products</h3>
+<button onclick="showPage('products')">View</button>
+</div>
+
+</div>
+
+<!-- TODO PAGE -->
+<div id="todo" class="page">
+<h2>📝 To-Do List</h2>
+
+<input id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add</button>
+
+<ul id="taskList"></ul>
+
+<br><button onclick="showPage('home')">⬅ Back</button>
+</div>
+
+<!-- PRODUCTS PAGE -->
+<div id="products" class="page">
+<h2>🛒 Products</h2>
+
+<select onchange="filterProducts(this.value)">
+<option value="all">All</option>
+<option value="low">Below ₹500</option>
+<option value="high">Above ₹500</option>
+</select>
+
+<button onclick="sortProducts()">Sort Price</button>
+
+<div id="productsContainer"></div>
+
+<br><button onclick="showPage('home')">⬅ Back</button>
+</div>
+
+<script>
+/* PAGE SWITCHING */
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+}
+
+/* TO-DO */
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function displayTasks() {
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
+    tasks.forEach((task, index) => {
+        list.innerHTML += `<li>${task} <button onclick="deleteTask(${index})">❌</button></li>`;
+    });
+}
+
+function addTask() {
+    let input = document.getElementById("taskInput");
+    if(input.value === "") return;
+
+    tasks.push(input.value);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    input.value = "";
+    displayTasks();
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayTasks();
+}
+
+displayTasks();
+
+/* PRODUCTS */
+let allProducts = [];
+
+fetch('https://fakestoreapi.com/products')
+.then(res => res.json())
+.then(data => {
+    allProducts = data;
+    displayProducts(allProducts);
+});
+
+function displayProducts(items) {
+    let container = document.getElementById("productsContainer");
+    container.innerHTML = "";
+
+    items.forEach(p => {
+        container.innerHTML += `
+        <div class="product">
+            <img src="${p.image}">
+            <h4>${p.title.substring(0,40)}...</h4>
+            <p>₹${Math.round(p.price * 80)}</p>
+        </div>`;
+    });
+}
+
+function filterProducts(type) {
+    if(type === "low") {
+        displayProducts(allProducts.filter(p => p.price * 80 < 500));
+    } else if(type === "high") {
+        displayProducts(allProducts.filter(p => p.price * 80 > 500));
+    } else {
+        displayProducts(allProducts);
+    }
+}
+
+function sortProducts() {
+    let sorted = [...allProducts].sort((a,b) => a.price - b.price);
+    displayProducts(sorted);
+}
+</script>
+
+</body>
+</html>
