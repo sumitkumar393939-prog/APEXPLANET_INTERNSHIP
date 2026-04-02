@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Web Hub</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #dff6f0, #ffffff);
+}
+.navbar {
+    background: #0a9396;
+}
+.navbar a {
+    color: white !important;
+}
+.section {
+    padding: 40px;
+}
+.card {
+    transition: 0.3s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg">
+<div class="container">
+<a class="navbar-brand text-white" href="#">Smart Web Hub</a>
+</div>
+</nav>
+
+<!-- WEATHER -->
+<div class="section text-center">
+<h2>🌦 Weather App</h2>
+<input type="text" id="city" placeholder="Enter City">
+<button onclick="getWeather()">Search</button>
+<p id="weatherResult"></p>
+</div>
+
+<!-- TODO -->
+<div class="section text-center">
+<h2>✅ To-Do List</h2>
+<input type="text" id="task">
+<button onclick="addTask()">Add</button>
+<ul id="taskList"></ul>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section">
+<h2 class="text-center">🛍 Products</h2>
+<div class="row">
+
+<div class="col-md-4">
+<div class="card p-3">
+<h5>Phone</h5>
+<button onclick="visit('https://www.amazon.in')">View</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-3">
+<h5>Laptop</h5>
+<button onclick="visit('https://www.flipkart.com')">View</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-3">
+<h5>Headphones</h5>
+<button onclick="visit('https://www.myntra.com')">View</button>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- PORTFOLIO -->
+<div class="section text-center">
+<h2>👩‍💻 Portfolio</h2>
+<button onclick="visit('https://sites.google.com/view/sukritikumariport/home')">
+Visit My Portfolio
+</button>
+</div>
+
+<script>
+function visit(link){
+    window.open(link, "_blank");
+}
+
+// TODO
+function addTask(){
+    let task = document.getElementById("task").value;
+    let li = document.createElement("li");
+    li.innerHTML = task;
+    document.getElementById("taskList").appendChild(li);
+}
+
+// WEATHER (Demo API)
+async function getWeather(){
+    let city = document.getElementById("city").value;
+    let res = await fetch(`https://wttr.in/${city}?format=3`);
+    let data = await res.text();
+    document.getElementById("weatherResult").innerText = data;
+}
+</script>
+
+</body>
+</html>
